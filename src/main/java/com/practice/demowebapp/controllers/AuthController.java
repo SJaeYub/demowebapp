@@ -17,15 +17,15 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         if (userService.isUsernameAvailable(user.getUsername())) {
             userService.registerUser(user);
-            return ResponseEntity.ok().body("User registered successfully");
+            return ResponseEntity.ok().body("{\"success\": true, \"message\": \"User registered successfully\"}");
         } else {
-            return ResponseEntity.badRequest().body("Username is already taken");
+            return ResponseEntity.badRequest().body("{\"success\": false, \"message\": \"Username is already taken\"}");
         }
     }
 
     @PostMapping("/check-username")
     public ResponseEntity<?> checkUsername(@RequestBody String username) {
         boolean isAvailable = userService.isUsernameAvailable(username);
-        return ResponseEntity.ok().body(isAvailable);
+        return ResponseEntity.ok().body("{\"available\": " + isAvailable + "}");
     }
 }
